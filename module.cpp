@@ -123,6 +123,25 @@ torch::Tensor myNaiveAttention(torch::Tensor QTensor, torch::Tensor KTensor, tor
     */
     
     // -------- YOUR CODE HERE  -------- //
+    // Looping over each batch
+    for (int b = 0; b < B; b++) {
+        // Looping over each attention head
+        for (int h = 0; h < H; h++) {
+            
+            
+            // Looping over seq length and embedding dimension
+            for (int i = 0; i < N; i++) {
+                for (int j = 0; j < d; j++) {
+                    float q_val = fourDimRead(Q, b, h, i, j, H, N, d);
+                    float kt_val = fourDimRead(Q, b, h, i, j, H, N, d);
+                    float qkt_val = q_val * kt_val;
+                    twoDimWrite(QK_t, i, j, N, qkt_val);
+                }
+            }
+            
+        
+        }
+    }
     
     // DO NOT EDIT THIS RETURN STATEMENT //
     // It formats your C++ Vector O back into a Tensor of Shape (B, H, N, d) and returns it //
